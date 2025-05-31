@@ -1,0 +1,7 @@
+{
+  "remoteURL": "git@github.com:AonoChano/obsidian-notes.git",
+  "gitLocation": "",
+  "syncinterval": 15,
+  "isSyncOnLoad": true,
+  "checkStatusOnLoad": true
+}
