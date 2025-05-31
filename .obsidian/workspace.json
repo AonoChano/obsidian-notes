@@ -15,7 +15,7 @@
             "state": {
               "type": "mk-ever-view",
               "state": {
-                "path": "/"
+                "path": "数电笔记"
               },
               "pinned": true,
               "icon": "columns",
@@ -35,12 +35,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "日记/2025-03-17.md",
+                "file": "数电笔记/未命名 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-03-17"
+              "title": "未命名 1"
             }
           }
         ]
@@ -146,12 +146,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "日记/2025-03-17.md",
+                "file": "数电笔记/未命名 1.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "2025-03-17 的出链列表"
+              "title": "未命名 1 的出链列表"
             }
           },
           {
@@ -175,13 +175,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "日记/2025-03-17.md",
+                "file": "数电笔记/未命名 1.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "2025-03-17 的大纲"
+              "title": "未命名 1 的大纲"
             }
           },
           {
@@ -230,8 +230,13 @@
   },
   "active": "14d189e9f0a82473",
   "lastOpenFiles": [
-    "账单/未命名.md",
     "任务清单/2025-05-31.md",
+    "日记/2025-05-31.md",
+    "日记/2025-03-17.md",
+    "杂/电影列表.md",
+    "杂/杂.md",
+    "杂",
+    "账单/未命名.md",
     "Vault.md",
     "任务清单/未命名.md",
     "Tags/Tags.md",
@@ -249,7 +254,6 @@
     " LLM 提示词大全/ LLM 提示词大全.md",
     " LLM 提示词大全/豆包真人照片提示词.md",
     " LLM 提示词大全/小红书爆款写作专家.md",
-    "日记/2025-03-17.md",
     "数电笔记/数电笔记.md",
     "数电笔记/未命名 1.md",
     "数电笔记/Chapter1.md",
@@ -263,7 +267,6 @@
     "未命名.canvas",
     "未命名 1.canvas",
     " LLM 提示词大全",
-    "数电笔记",
     "日记/Welcome.md"
   ]
 }
