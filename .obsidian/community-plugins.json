@@ -11,5 +11,6 @@
   "omnisearch",
   "obsidian-git",
   "telegram-sync",
-  "github-sync"
+  "github-sync",
+  "obsidian-importer"
 ]

@@ -49,7 +49,9 @@
     "//账单/账单/任务清单",
     "//任务清单",
     "任务清单",
-    "//数电笔记"
+    "//数电笔记",
+    "//HTML import",
+    "//概率论"
   ],
   "expandFolderOnClick": true,
   "spacesFolder": "Tags",

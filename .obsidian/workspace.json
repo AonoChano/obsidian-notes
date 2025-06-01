@@ -15,7 +15,7 @@
             "state": {
               "type": "mk-ever-view",
               "state": {
-                "path": "数电笔记"
+                "path": "概率论"
               },
               "pinned": true,
               "icon": "columns",
@@ -97,7 +97,7 @@
             }
           },
           {
-            "id": "b87c8a73656ea174",
+            "id": "f79517ae78f83696",
             "type": "leaf",
             "state": {
               "type": "mk-path-view",
@@ -225,11 +225,25 @@
       "obsidian-kanban:创建新看板": false,
       "omnisearch:Omnisearch": false,
       "obsidian-git:Open Git source control": false,
-      "github-sync:Sync with Remote": false
+      "github-sync:Sync with Remote": false,
+      "obsidian-importer:Open Importer": false
     }
   },
   "active": "14d189e9f0a82473",
   "lastOpenFiles": [
+    "概率论/概率论与数理统计.md",
+    "数电笔记/未命名 1.md",
+    "概率论/概率论.md",
+    "概率论/Pasted image 20240529194814.png",
+    "概率论/Pasted image 20240528202511.png",
+    "概率论",
+    "%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1/Pasted image 20240529194814.png",
+    "%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1/概率论.md",
+    "%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1/Pasted image 20240528202511.png",
+    "%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1",
+    "HTML import/概率论与数理统计笔记.md",
+    "HTML import/概率论与数理统计笔记 1.md",
+    "HTML import",
     "任务清单/2025-05-31.md",
     "日记/2025-05-31.md",
     "日记/2025-03-17.md",
@@ -255,18 +269,9 @@
     " LLM 提示词大全/豆包真人照片提示词.md",
     " LLM 提示词大全/小红书爆款写作专家.md",
     "数电笔记/数电笔记.md",
-    "数电笔记/未命名 1.md",
-    "数电笔记/Chapter1.md",
-    "未命名看板.md",
     "Recording 20250531103148.m4a",
     "Recording 20250531103155.m4a",
-    "Excalidraw/Drawing 2025-05-31 10.31.43.excalidraw.md",
-    "Excalidraw/Drawing 2025-05-31 10.30.06.excalidraw.md",
-    "Excalidraw",
-    "Tags",
     "未命名.canvas",
-    "未命名 1.canvas",
-    " LLM 提示词大全",
-    "日记/Welcome.md"
+    "未命名 1.canvas"
   ]
 }
