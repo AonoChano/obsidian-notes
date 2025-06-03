@@ -35,12 +35,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "任务清单/2025-05-31.md",
+                "file": "数电笔记/未命名 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "2025-05-31"
+              "title": "未命名 1"
             }
           }
         ]
@@ -97,7 +97,7 @@
             }
           },
           {
-            "id": "f79517ae78f83696",
+            "id": "d261df7f028f048e",
             "type": "leaf",
             "state": {
               "type": "mk-path-view",
@@ -231,6 +231,7 @@
   },
   "active": "14d189e9f0a82473",
   "lastOpenFiles": [
+    "任务清单/2025-05-31.md",
     "日记/2025-03-17.md",
     "日记/2025-05-31.md",
     "数电笔记/未命名 1.md",
@@ -246,7 +247,6 @@
     "HTML import/概率论与数理统计笔记.md",
     "HTML import/概率论与数理统计笔记 1.md",
     "HTML import",
-    "任务清单/2025-05-31.md",
     "杂/电影列表.md",
     "杂/杂.md",
     "杂",
