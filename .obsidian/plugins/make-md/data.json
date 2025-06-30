@@ -38,11 +38,9 @@
   "vaultSelector": true,
   "deleteFileOption": "trash",
   "expandedSpaces": [
-    "//日记",
     "//Excalidraw",
     "//🤖 LLM 提示词大全",
     "//Tags",
-    "//账单",
     "账单",
     "账单/账单/1",
     "/",
@@ -52,7 +50,7 @@
     "//数电笔记",
     "//HTML import",
     "//概率论",
-    "//杂"
+    "//日记"
   ],
   "expandFolderOnClick": true,
   "spacesFolder": "Tags",
