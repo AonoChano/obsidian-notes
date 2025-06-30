@@ -277,27 +277,27 @@
       "showInContextMenu": true
     },
     {
-      "name": "Simplify",
+      "name": "简化",
       "prompt": "Simplify {} to a 6th-grade reading level (ages 11-12). Use simple sentences, common words, and clear explanations. Maintain the original key concepts. Return only the simplified text.",
       "showInContextMenu": true
     },
     {
-      "name": "Emojify",
+      "name": "Emoji优化",
       "prompt": "Add relevant emojis to enhance {}. Follow these rules:\n    1. Insert emojis at natural breaks in the text\n    2. Never place two emojis next to each other\n    3. Keep all original text unchanged\n    4. Choose emojis that match the context and tone\n    Return only the emojified text.",
       "showInContextMenu": true
     },
     {
-      "name": "Make shorter",
+      "name": "缩短",
       "prompt": "Reduce {} to half its length while preserving these elements:\n    1. Main ideas and key points\n    2. Essential details\n    3. Original tone and style\n    Return only the shortened text.",
       "showInContextMenu": true
     },
     {
-      "name": "Make longer",
+      "name": "扩写",
       "prompt": "Expand {} to twice its length by:\n    1. Adding relevant details and examples\n    2. Elaborating on key points\n    3. Maintaining the original tone and style\n    Return only the expanded text.",
       "showInContextMenu": true
     },
     {
-      "name": "Generate table of contents",
+      "name": "根据所选生成表格",
       "prompt": "Generate a hierarchical table of contents for {}. Use appropriate heading levels (H1, H2, H3, etc.). Include page numbers if present. Return only the table of contents.",
       "showInContextMenu": false
     },

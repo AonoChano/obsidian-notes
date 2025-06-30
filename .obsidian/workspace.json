@@ -15,7 +15,7 @@
             "state": {
               "type": "mk-ever-view",
               "state": {
-                "path": "Tags"
+                "path": "电子EDA学习笔记"
               },
               "pinned": true,
               "icon": "columns",
@@ -33,16 +33,14 @@
             "id": "14d189e9f0a82473",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "未命名看板.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": []
-                }
+                "file": "电子EDA学习笔记/Xilinx Vivado 数字设计权威指南 从数字逻辑、Verilog HDL、嵌入式系统到图像处理.md",
+                "mode": "source",
+                "source": false
               },
-              "icon": "lucide-trello",
-              "title": "未命名看板"
+              "icon": "lucide-file",
+              "title": "Xilinx Vivado 数字设计权威指南 从数字逻辑、Verilog HDL、嵌入式系统到图像处理"
             }
           }
         ]
@@ -233,9 +231,18 @@
   },
   "active": "14d189e9f0a82473",
   "lastOpenFiles": [
+    "账单/未命名.md",
+    "电子EDA学习笔记/Xilinx Vivado 数字设计权威指南 从数字逻辑、Verilog HDL、嵌入式系统到图像处理.md",
+    "电子EDA学习笔记/电子EDA学习笔记.md",
+    "电子EDA学习笔记",
     "未命名看板.md",
-    "未命名.canvas",
+    "未命名 1.md",
+    " LLM 提示词大全/豆包真人照片提示词.md",
+    " LLM 提示词大全/小红书爆款写作专家.md",
     "未命名.md",
+    "任务清单/2025-05-31.md",
+    "杂/电影列表.md",
+    "未命名.canvas",
     "账单/账单.md",
     "Excalidraw/Drawing 2025-06-30 17.25.20.excalidraw.md",
     "Excalidraw",
@@ -243,8 +250,6 @@
     "日记/2025-03-17.md",
     "数电笔记/未命名 1.md",
     "数电笔记/Chapter1.md",
-    "杂/电影列表.md",
-    "任务清单/2025-05-31.md",
     "日记/2025-05-31.md",
     "概率论/概率论与数理统计.md",
     "概率论/概率论.md",
@@ -260,19 +265,13 @@
     "HTML import",
     "杂/杂.md",
     "杂",
-    "账单/未命名.md",
     "Vault.md",
     "任务清单/未命名.md",
     "Tags/Tags.md",
-    "任务清单/任务清单.md",
     "任务清单",
-    "未命名 1.md",
-    "账单/Todo/Todo.md",
     "账单/Todo",
-    "账单/1/1.md",
     "账单/1",
     "账单",
-    "Recording 20250531103148.m4a",
     "未命名 1.canvas"
   ]
 }

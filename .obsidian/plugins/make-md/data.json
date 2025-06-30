@@ -50,7 +50,11 @@
     "//数电笔记",
     "//HTML import",
     "//概率论",
-    "//日记"
+    "//日记",
+    "//杂",
+    "//账单",
+    "// LLM 提示词大全",
+    "//电子EDA学习笔记"
   ],
   "expandFolderOnClick": true,
   "spacesFolder": "Tags",
