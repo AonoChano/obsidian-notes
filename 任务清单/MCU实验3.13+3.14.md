@@ -34,131 +34,117 @@
 *   **MCU 与 数码管**:
     *   `P1口` 连接数码管的段选线 (a-h)，控制显示哪个数字。
     *   `P2.0~P2.3` 连接数码管的位选线，控制哪一位数码管被点亮。
-#### **参考代码 (适用于AT89S52)**
+#### 实验13**参考代码 (适用于AT89S52)**
 
 ```c
 #include <reg52.h>
 
-// 类型定义
+#define BYTE unsigned char
+#define WORD unsigned int
 
-#define uchar unsigned char
-#define uint unsigned int
+sbit adc_clk   = P3^1; // ADC 时钟输出
+sbit adc_eoc   = P3^0; // ADC 转换完成输入
+sbit adc_cs    = P2^7; // ADC 片选 (低电平有效)
+sbit adc_start = P3^6; // ADC 启动转换
+sbit adc_oe    = P3^7; // ADC 数据输出使能 (低电平有效)
 
-// ADC0809 控制引脚定义
-sbit ADC_START = P3^6; // 启动信号
-sbit ADC_EOC  = P3^0; // 转换结束信号 (输入)
-sbit ADC_OE   = P3^7; // 输出使能信号
 
-// 数码管位选引脚定义
-sbit DIG1 = P2^0;
-sbit DIG2 = P2^1;
-sbit DIG3 = P2^2;
-sbit DIG4 = P2^3;
+// volatile 关键字确保主循环和中断能正确访问这些共享变量
+volatile WORD g_adc_raw_value = 0; // 存储从ADC P0口直接读出的原始8位数据
+volatile BYTE g_display_digits[4]; // 存储待显示的4个数字，[0]为个位，[1-3]为小数位
 
-// 全局变量
-uchar display_buffer[4]; // 数码管显示缓冲区，存放要显示的数字
-uchar code seg_code[] = { // 共阳数码管段码表 (0-9)
-    0xC0, // 0
-    0xF9, // 1
-    0xA4, // 2
-    0xB0, // 3
-    0x99, // 4
-    0x92, // 5
-    0x82, // 6
-    0xF8, // 7
-    0x80, // 8
-    0x90  // 9
+// 数码管共阳极字形码表，存放在ROM中以节省RAM
+BYTE code led_glyph_table[] = {
+    0xC0, /* 0 */ 0xF9, /* 1 */ 0xA4, /* 2 */ 0xB0, /* 3 */
+    0x99, /* 4 */ 0x92, /* 5 */ 0x82, /* 6 */ 0xF8, /* 7 */
+    0x80, /* 8 */ 0x90  /* 9 */
 };
 
-// 函数声明
-void timer0_init();
-uchar read_adc();
 
-void main() {
-    uint adc_val;
-    float voltage;
-    uint voltage_int;
+void initialize_system(void) {
+    // 初始化ADC控制引脚
+    adc_cs    = 0; // 始终选中ADC芯片
+    adc_oe    = 1; // 平时禁止ADC数据总线输出
+    adc_start = 1; // 转换启动信号默认为高电平
 
-    timer0_init(); // 初始化定时器和中断
-
-    while(1) {
-        // 1. 读取ADC转换结果
-        adc_val = read_adc();
-
-        // 2. 将数字量转换为电压值 (0-255 -> 0-5.00V)
-        voltage = (adc_val / 255.0) * 5.0;
-
-        // 3. 将浮点电压转换为整数，方便分离数位 (如 3.45V -> 345)
-        voltage_int = voltage * 100;
-
-        // 4. 分离各位数字并存入显示缓冲区
-        // 假设显示格式为 X.XX V, 我们只显示 X.XX
-        display_buffer[0] = voltage_int / 100;       // 个位
-        display_buffer[1] = (voltage_int % 100) / 10; // 小数点后第一位
-        display_buffer[2] = voltage_int % 10;        // 小数点后第二位
-        display_buffer[3] = 0xFF; // 第四位不显示，送全灭段码
-    }
+    // 配置并启动定时器0，设置为1毫秒中断一次
+    TMOD = 0x01;  // 定时器0工作在16位定时模式
+    TH0  = 0xFC;  // 装载1ms定时初值 (11.0592MHz晶振)
+    TL0  = 0x66;
+    ET0  = 1;     // 允许定时器0中断
+    TR0  = 1;     // 启动定时器0
+    EA   = 1;     // 开放总中断
 }
 
-// ADC读取函数
-uchar read_adc() {
-    uchar value;
-    ADC_OE = 0;          // 关闭输出
-    ADC_START = 0;       // 准备启动脉冲
-    ADC_START = 1;       // 启动脉冲上升沿
-    ADC_START = 0;       // 启动脉冲下降沿，开始转换
-    while(!ADC_EOC);     // 等待转换结束 (EOC变高)
-    ADC_OE = 1;          // 打开输出三态门
-    value = P0;          // 读取数据
-    ADC_OE = 0;          // 关闭输出
-    return value;
-}
+// 定时器0中断服务程序，负责所有高频的实时任务
+void timer0_isr_routine(void) interrupt 1 {
+    static BYTE scan_cursor = 0; // 静态变量，用于记录当前扫描到哪一位数码管
 
-// 定时器0初始化
-void timer0_init() {
-    TMOD = 0x01;    // 设置定时器0为16位模式
-    // 设置2ms中断 (12MHz晶振)
-    TH0 = (65536 - 2000) / 256;
-    TL0 = (65536 - 2000) % 256;
-    EA = 1;         // 开总中断
-    ET0 = 1;        // 开定时器0中断
-    TR0 = 1;        // 启动定时器0
-}
+    // --- 任务1: ADC时钟生成与数据采集 ---
+    adc_clk = ~adc_clk; // 每次中断都翻转时钟线，为ADC提供工作时钟
 
-// 定时器0中断服务程序 (用于动态扫描数码管)
-void timer0_isr() interrupt 1 {
-    static uchar scan_index = 0; // 静态变量，记录当前扫描的位数
+    // 检查转换是否结束 (EOC=1)
+    if (adc_eoc == 1) {
+        adc_oe = 0;             // 使能ADC数据输出
+        g_adc_raw_value = P0;   // 从P0口读取结果
+        adc_oe = 1;             // 立刻禁止输出，释放P0口
 
-    // 重新加载初值
-    TH0 = (65536 - 2000) / 256;
-    TL0 = (65536 - 2000) % 256;
-
-    // 关闭所有位选，防止鬼影
-    DIG1 = 1; DIG2 = 1; DIG3 = 1; DIG4 = 1;
-
-    // 根据scan_index选择要显示的位和数据
-    switch(scan_index) {
-        case 0:
-            P1 = seg_code[display_buffer[0]] & 0x7F; // 显示个位，并点亮小数点
-            DIG1 = 0; // 选中第一位
-            break;
-        case 1:
-            P1 = seg_code[display_buffer[1]]; // 显示小数点后第一位
-            DIG2 = 0; // 选中第二位
-            break;
-        case 2:
-            P1 = seg_code[display_buffer[2]]; // 显示小数点后第二位
-            DIG3 = 0; // 选中第三位
-            break;
-        case 3:
-            P1 = display_buffer[3]; // 第四位不显示
-            DIG4 = 0; // 选中第四位
-            break;
+        // 产生一个下降沿脉冲来启动下一次转换
+        adc_start = 0;
+        adc_start = 1;
     }
 
-    scan_index++; // 扫描下一位
-    if (scan_index >= 4) {
-        scan_index = 0;
+    // --- 任务2: 4位数码管动态扫描与刷新 ---
+    
+    // a. 消隐：先关闭所有段选和位选，防止切换时产生暗淡的重影
+    P1 = 0xFF; // 关闭所有段
+    P2 |= 0x0F; // 关闭所有位选（通过将P2低4位置1）
+
+    // b. 位选：根据扫描光标选择要点亮的数码管
+    //    使用位操作，只修改P2的低4位，不影响P2.7上的adc_cs
+    P2 = (P2 & 0xF0) | (~(1 << scan_cursor) & 0x0F);
+
+    // c. 段选：从显示缓冲区取出对应数字，并查表获得段码送到P1口
+    P1 = led_glyph_table[g_display_digits[scan_cursor]];
+
+    // d. 小数点处理：当扫描到第一位(X.XXX)时，点亮其小数点
+    if (scan_cursor == 0) {
+        P1 &= 0x7F; // 将段码的最高位(DP)清零来点亮小数点
+    }
+
+    // e. 移动光标，准备下一次中断刷新下一位
+    scan_cursor++;
+    if (scan_cursor == 4) {
+        scan_cursor = 0; // 循环扫描
+    }
+
+    // --- 任务3: 重装定时器初值 ---
+    TH0 = 0xFC;
+    TL0 = 0x66;
+}
+
+
+
+void main(void) {
+    // 使用32位长整型进行中间计算，防止乘法溢出
+    unsigned long temp_calc_value; 
+    WORD voltage_mv; // 存储以毫伏为单位的电压值, e.g., 4567 代表 4.567V
+
+    initialize_system();
+
+    while (1) {
+        temp_calc_value = g_adc_raw_value; // 从volatile变量读取一次，避免多次读取
+        temp_calc_value = (temp_calc_value * 5000) / 255;
+        voltage_mv = (WORD)temp_calc_value;
+
+        ET0 = 0; 
+        
+        g_display_digits[0] = voltage_mv / 1000;       // 提取千位 -> 个位 X.
+        g_display_digits[1] = (voltage_mv / 100) % 10; // 提取百位 -> 小数第一位 .X
+        g_display_digits[2] = (voltage_mv / 10) % 10;  // 提取十位 -> 小数第二位 .XX
+        g_display_digits[3] = voltage_mv % 10;         // 提取个位 -> 小数第三位 .XXX
+
+        ET0 = 1; 
     }
 }
 ```
@@ -191,8 +177,21 @@ void timer0_isr() interrupt 1 {
 ### **实验二：3.14 DAC0832 数模转换实验分析**
 
 这个实验的目的是让单片机输出一个变化的数字量给 DAC0832 芯片，由DAC芯片将其转换为模拟电压信号，从而产生一个锯齿波。
+3.14原理图设计
+1.在Proteus 中绘制单片机最小系统，包括主控芯片、晶振电路和复位电路。
+2.添加DAC0832 芯片，片选CS 端口接电阻上拉，标号连接到单片机P2.7 口，WR 端口标号连接到
+P3.6 口，两个GND 接地，VREF 接2.5V 高电平，VCC 和ILE 接高电平，WR2 和XFER、OUT2 同
+时接地，输入端DI0-DI7 连接到P0 口，P0 口需要排阻上拉。
+3.添加LM358 芯片，-端口连接到0832 的OUT1 端，+端口接地，1 端口作为反馈信号接回0832 的
+RFB 端。8、4 引脚分别接+12 和-12 电源。
+微控制器仿真实验实训平台(FB-EDU-MCU-F)
+108
+4.再添加一个LM358，分别按下图电路连接，构成3 个不同的放大电路，接入示波器的A、B、C 端
+口，观察3 个数模转换后不同的波形。
 
-#### **程序流程图分析 (第二张图)**
+| | 硬件连接表 | | | ---- | ---- | ---- | | | MCU - AT89S52 | 数模转换 | 8 位 LED/示波器 | | | P27 | CS | | | | P36 | WR | | | | P00~P07 | DB0~DB7 | | | | | DA 输出 | D1 |
+
+#### **程序流程图**
 
 这张图也分为主函数和另一个功能函数。
 
@@ -259,12 +258,10 @@ void main() {
 }
 ```
 
-#### **实验思考题解答**
+**此部分需要作答，和上面的函数是一个完整的函数：如果要使用DAC0832编写程序产生一个锯齿波、三角波、方波，正弦波四种波形显示，该如何修改程序。**
+答：可以编写三个独立的函数，分别用于产生三种波形，然后在主循环中合理使用用它们。
 
-**1. 如果要使用DAC0832编写程序产生一个锯齿波、三角波、方波，三种波形轮流显示，该如何修改程序。**
-答：可以编写三个独立的函数，分别用于产生三种波形，然后在主循环中依次调用它们。
-
-*   **程序结构**:
+*   **参考程序结构**:
     ```c
     void generate_sawtooth() {
         for (int i = 0; i <= 255; i++) {
@@ -308,9 +305,97 @@ void main() {
         }
     }
     ```
-    **核心思想**:
-    *   **锯齿波**: 计数器从0线性增加到255，然后复位。
-    *   **三角波**: 计数器从0线性增加到255，然后再从255线性减少到0。
-    *   **方波**: 在0和255两个值之间切换，并在每个值上保持一段时间。
-    *   **轮流显示**: 在主循环 `while(1)` 中，通过循环调用这三个函数，并控制每个函数的执行时间或次数，来实现波形的轮流切换。
+    这个波形是轮流的，请尝试书写完整的一整个实验的代码
 
+
+
+```C
+#include <reg52.h>
+
+#define BYTE unsigned char
+#define WORD unsigned int
+
+sbit adc_clk   = P3^1;
+sbit adc_eoc   = P3^0;
+sbit adc_cs    = P2^7;
+sbit adc_start = P3^6;
+sbit adc_oe    = P3^7;
+
+volatile WORD g_adc_raw_value = 0;
+volatile BYTE g_display_digits[4];
+
+BYTE code led_glyph_table[] = {
+    0xC0, 0xF9, 0xA4, 0xB0,
+    0x99, 0x92, 0x82, 0xF8,
+    0x80, 0x90
+};
+
+void initialize_system(void) {
+    adc_cs    = 0;
+    adc_oe    = 1;
+    adc_start = 1;
+
+    TMOD = 0x01;
+    TH0  = 0xFC;
+    TL0  = 0x66;
+    ET0  = 1;
+    TR0  = 1;
+    EA   = 1;
+}
+
+void timer0_isr_routine(void) interrupt 1 {
+    static BYTE scan_cursor = 0;
+
+    adc_clk = ~adc_clk;
+
+    if (adc_eoc == 1) {
+        adc_oe = 0;
+        g_adc_raw_value = P0;
+        adc_oe = 1;
+
+        adc_start = 0;
+        adc_start = 1;
+    }
+
+    P1 = 0xFF;
+    P2 |= 0x0F;
+
+    P2 = (P2 & 0xF0) | (~(1 << scan_cursor) & 0x0F);
+
+    P1 = led_glyph_table[g_display_digits[scan_cursor]];
+
+    if (scan_cursor == 0) {
+        P1 &= 0x7F;
+    }
+
+    scan_cursor++;
+    if (scan_cursor == 4) {
+        scan_cursor = 0;
+    }
+
+    TH0 = 0xFC;
+    TL0 = 0x66;
+}
+
+void main(void) {
+    unsigned long temp_calc_value;
+    WORD voltage_mv;
+
+    initialize_system();
+
+    while (1) {
+        temp_calc_value = g_adc_raw_value;
+        temp_calc_value = (temp_calc_value * 5000) / 255;
+        voltage_mv = (WORD)temp_calc_value;
+
+        ET0 = 0;
+        
+        g_display_digits[0] = voltage_mv / 1000;
+        g_display_digits[1] = (voltage_mv / 100) % 10;
+        g_display_digits[2] = (voltage_mv / 10) % 10;
+        g_display_digits[3] = voltage_mv % 10;
+
+        ET0 = 1;
+    }
+}
+```
