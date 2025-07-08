@@ -40,8 +40,9 @@
 #include <reg52.h>
 
 // 类型定义
-typedef unsigned char uchar;
-typedef unsigned int uint;
+
+#define uchar unsigned char
+#define uint unsigned int
 
 // ADC0809 控制引脚定义
 sbit ADC_START = P3^6; // 启动信号
