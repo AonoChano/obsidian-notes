@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "e8d1f253f14fc953",
+        "id": "8020af3f351ca37a",
         "type": "tabs",
         "children": [
           {
-            "id": "14d189e9f0a82473",
+            "id": "45661ccab7460273",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "任务清单/MCU实验3.13+3.14.md",
+                "file": "任务清单/单片机复习.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "MCU实验3.13+3.14"
+              "title": "单片机复习"
             }
           }
         ]
@@ -75,7 +75,7 @@
             }
           },
           {
-            "id": "22e16b755bcaef52",
+            "id": "d6cd6d69ddcd0ef5",
             "type": "leaf",
             "state": {
               "type": "mk-path-view",
@@ -85,12 +85,11 @@
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "cf764eccabd45a5f",
@@ -209,10 +208,13 @@
       "obsidian-importer:Open Importer": false
     }
   },
-  "active": "14d189e9f0a82473",
+  "active": "45661ccab7460273",
   "lastOpenFiles": [
-    "电子EDA学习笔记/Xilinx Vivado 数字设计权威指南 从数字逻辑、Verilog HDL、嵌入式系统到图像处理.md",
+    "任务清单/单片机复习.md",
+    "未命名 1.canvas",
+    "未命名.canvas",
     "任务清单/MCU实验3.13+3.14.md",
+    "电子EDA学习笔记/Xilinx Vivado 数字设计权威指南 从数字逻辑、Verilog HDL、嵌入式系统到图像处理.md",
     "账单/未命名.md",
     "电子EDA学习笔记/电子EDA学习笔记.md",
     "电子EDA学习笔记",
@@ -223,7 +225,6 @@
     "未命名.md",
     "任务清单/2025-05-31.md",
     "杂/电影列表.md",
-    "未命名.canvas",
     "账单/账单.md",
     "Excalidraw/Drawing 2025-06-30 17.25.20.excalidraw.md",
     "Excalidraw",
@@ -247,11 +248,9 @@
     "杂/杂.md",
     "杂",
     "Vault.md",
-    "Tags/Tags.md",
     "任务清单",
     "账单/Todo",
     "账单/1",
-    "账单",
-    "未命名 1.canvas"
+    "账单"
   ]
 }

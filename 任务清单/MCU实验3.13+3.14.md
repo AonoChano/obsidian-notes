@@ -399,3 +399,137 @@ void main(void) {
     }
 }
 ```
+
+
+## 3.14完整代码 ##
+
+```C
+#include <reg52.h>
+#include <math.h>
+
+typedef unsigned char uchar;
+typedef unsigned int uint;
+
+#define PI 3.14159265
+
+sbit DAC_CS = P2^7;
+sbit DAC_WR = P3^6;
+sbit SW1 = P3^2;
+sbit SW2 = P3^3;
+
+void delay_ms(uint ms) {
+    uint i, j;
+    for (i = 0; i < ms; i++) {
+        for (j = 0; j < 110; j++);
+    }
+}
+
+void delay_us(uint us) {
+    while(us--);
+}
+
+void generate_sawtooth(void) {
+    uint i;
+    for (i = 0; i < 256; i++) {
+        P0 = i;
+        delay_us(50);
+    }
+}
+
+void generate_triangle(void) {
+    uint i;
+    for (i = 0; i < 255; i++) {
+        P0 = i;
+        delay_us(50);
+    }
+    for (i = 255; i > 0; i--) {
+        P0 = i;
+        delay_us(50);
+    }
+}
+
+void generate_square(void) {
+    P0 = 0x00;
+    delay_ms(15);
+    P0 = 0xFF;
+    delay_ms(15);
+}
+
+void generate_sine(void) {
+    uint i;
+    double rad;
+    for (i = 0; i < 256; i++) {
+        rad = (i / 256.0) * 2 * PI;
+        P0 = (uchar)(127.5 + 127.5 * sin(rad));
+    }
+}
+
+void main(void) {
+    uchar wave_selection;
+
+    DAC_CS = 0;
+    DAC_WR = 0;
+    P3 |= 0x0C;
+
+    while(1) {
+        wave_selection = ((P3 >> 2) & 0x03);
+
+        if (wave_selection == 0) {
+            generate_sawtooth();
+        } else if (wave_selection == 1) {
+            generate_triangle();
+        } else if (wave_selection == 2) {
+            generate_square();
+        } else {
+            generate_sine();
+        }
+
+        /*
+        // --- 方案二：波形自动轮流显示 ---
+        // 将此代码块替换上面整个 if-else 结构，即可实现自动切换。
+        // 每种波形将连续播放数个周期，然后自动切换到下一种。
+
+        uint k;
+        // 播放锯齿波
+        for(k=0; k<20; k++) generate_sawtooth();
+        // 播放三角波
+        for(k=0; k<10; k++) generate_triangle();
+        // 播放方波
+        for(k=0; k<50; k++) generate_square();
+        // 播放正弦波
+        for(k=0; k<10; k++) generate_sine();
+        */
+
+        /*
+        // --- 方案三：单按键循环切换波形 ---
+        // 使用一个按键（如SW1）来循环切换四种波形。
+        // 将此代码块替换主 `while(1)` 循环的全部内容。
+
+        static uchar current_wave = 0; // 静态变量，记录当前波形
+
+        // 1. 按键检测逻辑
+        if (SW1 == 0) {
+            delay_ms(20); // 按键消抖
+            if (SW1 == 0) {
+                current_wave++; // 切换到下一种波形
+                if (current_wave > 3) {
+                    current_wave = 0; // 循环切换
+                }
+                while(SW1 == 0); // 等待按键释放
+            }
+        }
+
+        // 2. 根据当前波形模式产生输出
+        if (current_wave == 0) {
+            generate_sawtooth();
+        } else if (current_wave == 1) {
+            generate_triangle();
+        } else if (current_wave == 2) {
+            generate_square();
+        } else {
+            generate_sine();
+        }
+        */
+    }
+}
+```
