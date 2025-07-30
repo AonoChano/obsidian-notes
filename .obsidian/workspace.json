@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "任务清单/单片机复习.md",
+                "file": "杂/未命名 1.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "单片机复习"
+              "title": "未命名 1"
             }
           }
         ]
@@ -75,7 +75,7 @@
             }
           },
           {
-            "id": "d6cd6d69ddcd0ef5",
+            "id": "22f04a33d96adb26",
             "type": "leaf",
             "state": {
               "type": "mk-path-view",
@@ -210,6 +210,9 @@
   },
   "active": "45661ccab7460273",
   "lastOpenFiles": [
+    "杂/未命名.md",
+    "杂/未命名 1.md",
+    "杂/杂.md",
     "任务清单/单片机复习.md",
     "未命名 1.canvas",
     "未命名.canvas",
@@ -243,11 +246,8 @@
     "%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1/Pasted image 20240528202511.png",
     "%E6%A6%82%E7%8E%87%E8%AE%BA%E4%B8%8E%E6%95%B0%E7%90%86%E7%BB%9F%E8%AE%A1",
     "HTML import/概率论与数理统计笔记.md",
-    "HTML import/概率论与数理统计笔记 1.md",
     "HTML import",
-    "杂/杂.md",
     "杂",
-    "Vault.md",
     "任务清单",
     "账单/Todo",
     "账单/1",
